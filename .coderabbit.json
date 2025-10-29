@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "php": {
+      "style": "WordPress",
+      "max_cyclomatic_complexity": 12
+    }
+  },
+  "review": {
+    "require_description": true,
+    "summary": true,
+    "suggest_fixes": true,
+    "block_on_critical": true
+  },
+  "ignore": ["wp-content/uploads/**", "vendor/**", "**/*.min.js"]
+}
