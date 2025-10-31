@@ -6,3 +6,216 @@ Description: Child theme for Tilottama store.
 Author: Abhra Das
 Text Domain: tilottama-child
 */
+
+:root {
+    --tilottama-hero-bg: linear-gradient(180deg, #fdf5ff 0%, #f9fbff 45%, #f6f7ff 100%);
+    --tilottama-hero-primary: #1f1c4d;
+    --tilottama-hero-accent: #f9b661;
+    --tilottama-hero-secondary: #4036ff;
+    --tilottama-hero-muted: #6b6d7a;
+    --tilottama-card-shadow: 0 28px 60px rgba(31, 28, 77, 0.08);
+}
+
+body.home {
+    background: var(--tilottama-hero-bg);
+}
+
+.tilottama-landing {
+    font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--tilottama-hero-primary);
+    overflow: hidden;
+}
+
+.tilottama-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(2rem, 4vw, 5rem);
+    align-items: center;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 6rem) clamp(2rem, 6vw, 4rem);
+}
+
+.tilottama-hero__content {
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    max-width: 36rem;
+}
+
+.tilottama-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    color: var(--tilottama-hero-primary);
+    background: rgba(255, 205, 230, 0.55);
+    box-shadow: inset 0 0 0 1px rgba(255, 143, 198, 0.35);
+}
+
+.tilottama-hero__title {
+    margin: 0;
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.tilottama-hero__description {
+    margin: 0;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    line-height: 1.65;
+    color: var(--tilottama-hero-muted);
+}
+
+.tilottama-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.tilottama-hero__button,
+.tilottama-hero__secondary {
+    border-radius: 999px;
+    padding: 0.85rem 2.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.tilottama-hero__button {
+    background: var(--tilottama-hero-secondary);
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 22px 40px rgba(64, 54, 255, 0.28);
+}
+
+.tilottama-hero__button:hover,
+.tilottama-hero__button:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 55px rgba(64, 54, 255, 0.32);
+}
+
+.tilottama-hero__secondary {
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--tilottama-hero-primary);
+    box-shadow: inset 0 0 0 1px rgba(64, 54, 255, 0.2);
+}
+
+.tilottama-hero__secondary:hover,
+.tilottama-hero__secondary:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 1px rgba(64, 54, 255, 0.3), 0 10px 20px rgba(31, 28, 77, 0.08);
+}
+
+.tilottama-hero__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(18rem, 38vw, 28rem);
+}
+
+.tilottama-hero__halo {
+    position: absolute;
+    width: clamp(18rem, 38vw, 28rem);
+    height: clamp(18rem, 38vw, 28rem);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 214, 244, 0.9), rgba(255, 255, 255, 0) 65%),
+        radial-gradient(circle at 70% 60%, rgba(152, 209, 255, 0.85), rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    filter: blur(0px);
+    z-index: 0;
+    transform: translateY(10px);
+    box-shadow: var(--tilottama-card-shadow);
+}
+
+.tilottama-hero__image {
+    position: relative;
+    width: clamp(16rem, 34vw, 26rem);
+    z-index: 1;
+    animation: tilottama-hero-rotate 14s ease-in-out infinite;
+}
+
+@keyframes tilottama-hero-rotate {
+    0% {
+        transform: rotate(-12deg) scale(1);
+    }
+    50% {
+        transform: rotate(12deg) scale(1.02);
+    }
+    100% {
+        transform: rotate(-12deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tilottama-hero__image {
+        animation: none;
+    }
+}
+
+.tilottama-highlights {
+    margin-inline: clamp(1.5rem, 6vw, 6rem);
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+    padding: clamp(2.4rem, 6vw, 4rem);
+    background: rgba(255, 255, 255, 0.86);
+    border-radius: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: var(--tilottama-card-shadow);
+}
+
+.tilottama-highlights__header {
+    display: grid;
+    gap: 0.75rem;
+    text-align: left;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.tilottama-highlights__eyebrow {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: rgba(31, 28, 77, 0.55);
+}
+
+.tilottama-highlights__title {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.tilottama-highlights__subtitle {
+    margin: 0;
+    color: var(--tilottama-hero-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.tilottama-highlights .woocommerce-LoopProduct-link {
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+.tilottama-product-grid {
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.tilottama-highlights__empty {
+    margin: 0;
+    font-style: italic;
+    color: var(--tilottama-hero-muted);
+}
+
+@media (max-width: 768px) {
+    .tilottama-hero {
+        padding-top: clamp(3rem, 12vw, 5rem);
+    }
+
+    .tilottama-highlights {
+        margin-inline: clamp(1rem, 5vw, 2.5rem);
+    }
+}
