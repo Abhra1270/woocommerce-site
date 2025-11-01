@@ -8,7 +8,7 @@ add_action( 'wp_enqueue_scripts', function () {
     if ( is_front_page() ) {
         wp_enqueue_style(
             'tilottama-hero-fonts',
-            'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap',
+            'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap',
             [],
             null
         );
@@ -113,7 +113,7 @@ add_action( 'wp_enqueue_scripts', function () {
         var swiper = new Swiper( sliderEl, {
             loop: true,
             speed: 600,
-            spaceBetween: 0,
+            spaceBetween: 16,
             grabCursor: true,
             resistanceRatio: 0.85,
             slidesPerView: 1,
