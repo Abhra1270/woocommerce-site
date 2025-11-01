@@ -46,6 +46,13 @@ get_header();
 
                 <div class="tilo-hero__pagination swiper-pagination" aria-label="<?php esc_attr_e( 'Slide pagination', 'tilottama-child' ); ?>"></div>
             </div>
+            <section class="tilo-hero__card" aria-describedby="tilo-hero-progress">
+                <h1 id="tilo-hero-title"><?php esc_html_e( 'Follow Latest Style Shoes to follow the trend going on', 'tilottama-child' ); ?></h1>
+                <p><?php esc_html_e( 'Discover curated edits of the freshest footwear, styled to keep you ahead of every season and occasion.', 'tilottama-child' ); ?></p>
+                <div id="tilo-hero-progress" class="tilo-hero__progress" role="img" aria-label="<?php esc_attr_e( 'Carousel progress indicator', 'tilottama-child' ); ?>"></div>
+            </section>
+
+            <div class="tilo-hero__pagination swiper-pagination" aria-label="<?php esc_attr_e( 'Slide pagination', 'tilottama-child' ); ?>"></div>
 
             <div class="tilo-hero__action" role="group" aria-label="<?php esc_attr_e( 'Carousel controls', 'tilottama-child' ); ?>">
                 <button class="tilo-hero__next" type="button" aria-controls="tilo-hero-slider">
