@@ -11,22 +11,46 @@ get_header();
 ?>
 
 <main id="primary" class="tilottama-landing" tabindex="-1">
-    <section class="tilottama-hero">
-        <div class="tilottama-hero__content">
-            <span class="tilottama-hero__eyebrow"><?php esc_html_e( 'Pic 1', 'tilottama-child' ); ?></span>
-            <h1 class="tilottama-hero__title"><?php esc_html_e( 'Follow Latest Style Shoes to follow the trend going on', 'tilottama-child' ); ?></h1>
-            <p class="tilottama-hero__description"><?php esc_html_e( 'Step into leading silhouettes with our revolutionary fashion lab and curated sneaker rotation for trendsetting looks and curated collections.', 'tilottama-child' ); ?></p>
-            <?php
-            $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
-            ?>
-            <div class="tilottama-hero__cta">
-                <a class="tilottama-hero__button" href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop now', 'tilottama-child' ); ?></a>
-                <button class="tilottama-hero__secondary" type="button"><?php esc_html_e( 'Next', 'tilottama-child' ); ?></button>
+    <section class="tilo-hero" aria-labelledby="tilo-hero-title">
+        <div class="tilo-hero__device" role="region" aria-label="<?php esc_attr_e( 'Trending shoes carousel', 'tilottama-child' ); ?>">
+            <div id="tilo-hero-slider" class="tilo-hero__slider swiper" aria-live="polite">
+                <div class="swiper-wrapper">
+                    <article class="tilo-hero__slide swiper-slide" data-caption="Airy pastel sneaker" data-slide-index="0" aria-roledescription="slide">
+                        <picture>
+                            <img src="<?php echo esc_url( 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80' ); ?>" alt="<?php esc_attr_e( 'Soft pastel sneaker on a color block background', 'tilottama-child' ); ?>" loading="lazy" />
+                        </picture>
+                    </article>
+                    <article class="tilo-hero__slide swiper-slide" data-caption="Studio close-up" data-slide-index="1" aria-roledescription="slide">
+                        <picture>
+                            <img src="<?php echo esc_url( 'https://images.unsplash.com/photo-1528701800489-20be3c6c51f4?auto=format&fit=crop&w=900&q=80' ); ?>" alt="<?php esc_attr_e( 'Minimalist sneaker photographed in studio lighting', 'tilottama-child' ); ?>" loading="lazy" />
+                        </picture>
+                    </article>
+                    <article class="tilo-hero__slide swiper-slide" data-caption="Sneaker in motion" data-slide-index="2" aria-roledescription="slide">
+                        <video class="tilo-hero__video" preload="metadata" muted playsinline loop>
+                            <source src="<?php echo esc_url( 'https://cdn.coverr.co/videos/coverr-stylish-shoes-1080p.mp4' ); ?>" type="video/mp4" />
+                            <?php esc_html_e( 'Your browser does not support the video tag.', 'tilottama-child' ); ?>
+                        </video>
+                    </article>
+                </div>
+                <div class="tilo-hero__pagination swiper-pagination" aria-label="<?php esc_attr_e( 'Slide pagination', 'tilottama-child' ); ?>"></div>
             </div>
         </div>
-        <div class="tilottama-hero__visual" aria-hidden="true">
-            <div class="tilottama-hero__halo"></div>
-            <img class="tilottama-hero__image" src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/hero-sneaker.svg' ); ?>" alt="" loading="lazy" />
+
+        <section class="tilo-hero__card" aria-describedby="tilo-hero-progress">
+            <h1 id="tilo-hero-title"><?php esc_html_e( 'Follow Latest Style Shoes to follow the trend going on', 'tilottama-child' ); ?></h1>
+            <p><?php esc_html_e( 'Discover curated edits of the freshest footwear, styled to keep you ahead of every season and occasion.', 'tilottama-child' ); ?></p>
+            <div id="tilo-hero-progress" class="tilo-hero__progress" role="img" aria-label="<?php esc_attr_e( 'Carousel progress indicator', 'tilottama-child' ); ?>"></div>
+        </section>
+
+        <div class="tilo-hero__action" role="group" aria-label="<?php esc_attr_e( 'Carousel controls', 'tilottama-child' ); ?>">
+            <button class="tilo-hero__next" type="button" aria-controls="tilo-hero-slider">
+                <span class="tilo-hero__next-label"><?php esc_html_e( 'Next', 'tilottama-child' ); ?></span>
+                <span class="tilo-hero__next-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+                        <path d="M8.12 5.29 9.54 3.88 17.66 12l-8.12 8.12-1.41-1.41L14.83 12z" />
+                    </svg>
+                </span>
+            </button>
         </div>
     </section>
 
