@@ -8,18 +8,21 @@ Text Domain: tilottama-child
 */
 
 :root {
-    --tilo-bg: #f7efea;
-    --tilo-bg-accent: #f6ede7;
-    --tilo-card: #ffe8a8;
+    --tilo-bg1: #f8f2ef;
+    --tilo-bg2: #f6ede7;
+    --tilo-overlay-bg: #ffe8a8;
     --tilo-text: #1f1f1f;
     --tilo-muted: #6b6b6b;
     --tilo-white: #ffffff;
-    --tilo-radius-xl: 22px;
+    --tilo-radius-xl: 26px;
     --tilo-radius-lg: 18px;
     --tilo-radius-md: 14px;
     --tilo-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
     --tilo-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.08);
     --tilo-highlight-shadow: 0 24px 48px rgba(31, 28, 77, 0.08);
+    --tilo-bg: var(--tilo-bg1);
+    --tilo-bg-accent: var(--tilo-bg2);
+    --tilo-card: var(--tilo-overlay-bg);
 }
 
 body.home {
@@ -51,40 +54,41 @@ video {
 }
 
 .tilo-hero {
-    width: min(100%, 430px);
-    display: grid;
-    gap: 18px;
-    padding: 28px 20px 26px;
-    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.7), transparent 58%),
-        linear-gradient(180deg, var(--tilo-bg) 0%, var(--tilo-bg-accent) 100%);
-    border-radius: calc(var(--tilo-radius-xl) + 10px);
+    position: relative;
+    width: min(100%, 390px);
+    min-height: clamp(34rem, 95vh, 39rem);
+    padding: 28px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0 auto;
+    border-radius: calc(var(--tilo-radius-lg) + 10px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 58%),
+        linear-gradient(180deg, var(--tilo-bg1) 0%, var(--tilo-bg2) 100%);
     box-shadow: var(--tilo-shadow-md);
+    overflow: hidden;
+    isolation: isolate;
 }
 
-.tilo-hero__device {
-    background: var(--tilo-white);
-    border-radius: var(--tilo-radius-xl);
-    padding: 18px;
-    box-shadow: var(--tilo-shadow-md);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    position: relative;
+.tilo-hero__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
 }
 
 .tilo-hero__slider {
-    border-radius: var(--tilo-radius-lg);
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    height: 100%;
+}
+
+.tilo-hero__slider .swiper-wrapper {
+    height: 100%;
 }
 
 .tilo-hero__slide {
     height: 100%;
-    border-radius: inherit;
-    overflow: hidden;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .tilo-hero__slide picture,
@@ -99,64 +103,64 @@ video {
     background: #000;
 }
 
-.tilo-hero__pagination {
+.tilo-hero__scrim {
     position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset: 0;
+    background: linear-gradient(200deg, rgba(24, 22, 21, 0.28) 0%, rgba(24, 22, 21, 0.6) 70%, rgba(24, 22, 21, 0.65) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tilo-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
     display: flex;
-    gap: 6px;
-}
-
-.tilo-hero__pagination .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.7);
-    opacity: 1;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.tilo-hero__pagination .swiper-pagination-bullet-active {
-    background: var(--tilo-white);
-    transform: scale(1.25);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
 }
 
 .tilo-hero__card {
-    background: var(--tilo-card);
+    width: 100%;
+    background: var(--tilo-overlay-bg);
     border-radius: var(--tilo-radius-lg);
-    padding: 24px 24px 20px;
-    box-shadow: var(--tilo-shadow-sm);
+    padding: 16px 20px;
+    box-shadow: var(--tilo-shadow-md);
     display: grid;
-    gap: 14px;
+    gap: 0.875rem;
+    color: var(--tilo-text);
 }
 
 .tilo-hero__card h1 {
     margin: 0;
-    font-family: "Cormorant Garamond", "Times New Roman", serif;
-    font-size: clamp(1.75rem, 2.6vw + 1.4rem, 2.35rem);
-    line-height: 1.05;
+    font-family: "Playfair Display", "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(1.375rem, 2.1vw + 1.1rem, 1.5rem);
+    line-height: 1.1;
     letter-spacing: -0.01em;
-    color: var(--tilo-text);
+    color: inherit;
 }
 
 .tilo-hero__card p {
     margin: 0;
-    color: var(--tilo-muted);
-    font-size: 0.95rem;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.875rem;
     line-height: 1.5;
+    color: #6a6a6a;
 }
 
 .tilo-hero__progress {
     display: inline-flex;
-    gap: 8px;
+    gap: 6px;
     justify-content: center;
 }
 
 .tilo-hero__progress span {
-    width: 24px;
+    width: 22px;
     height: 4px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.45);
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
     transition: background 0.3s ease;
 }
@@ -165,14 +169,41 @@ video {
     background: rgba(255, 255, 255, 0.92);
 }
 
-.tilo-hero__action {
+.tilo-hero__pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    margin-top: 12px;
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+.tilo-hero__pagination .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.55);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.tilo-hero__pagination .swiper-pagination-bullet-active {
     background: var(--tilo-white);
-    border-radius: var(--tilo-radius-md);
-    padding: 10px 12px 10px 18px;
+    transform: scale(1.3);
+}
+
+.tilo-hero__action {
+    width: 100%;
+    height: 58px;
+    border-radius: var(--tilo-radius-lg);
+    background: var(--tilo-white);
+    box-shadow: var(--tilo-shadow-md);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    box-shadow: var(--tilo-shadow-sm);
+    padding: 0 18px;
 }
 
 .tilo-hero__next {
@@ -180,52 +211,57 @@ video {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: 16px;
     background: transparent;
     border: none;
     color: inherit;
     font: inherit;
     cursor: pointer;
+    padding: 0;
 }
 
 .tilo-hero__next:focus-visible {
-    outline: 2px solid #333;
-    outline-offset: 4px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6), 0 0 0 5px rgba(0, 0, 0, 0.4);
+    border-radius: var(--tilo-radius-lg);
 }
 
 .tilo-hero__next-label {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-weight: 500;
     font-size: 1rem;
 }
 
 .tilo-hero__next-icon {
     flex-shrink: 0;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: #f2f2f2;
+    background: #000000;
     display: grid;
     place-items: center;
-    box-shadow: var(--tilo-shadow-sm);
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tilo-hero__next-icon svg {
-    width: 22px;
-    height: 22px;
-    fill: var(--tilo-text);
+    width: 18px;
+    height: 18px;
+    fill: var(--tilo-white);
 }
 
 .tilo-hero__next:hover .tilo-hero__next-icon,
 .tilo-hero__next:focus-visible .tilo-hero__next-icon {
-    transform: translateX(2px);
-    background: rgba(255, 255, 255, 0.9);
+    transform: translateX(3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
 }
 
 @media (min-width: 768px) {
     .tilottama-landing {
         padding-left: clamp(2.5rem, 6vw, 5rem);
         padding-right: clamp(2.5rem, 6vw, 5rem);
+    }
+
+    .tilo-hero {
+        width: min(100%, 430px);
     }
 }
 
