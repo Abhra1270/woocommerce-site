@@ -7,11 +7,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$hero_enabled = get_theme_mod( 'porto_child_hero_enable', true );
+
+if ( $hero_enabled ) {
+	add_filter(
+		'body_class',
+		static function ( $classes ) {
+			if ( ! in_array( 'home-hero-overlap', $classes, true ) ) {
+				$classes[] = 'home-hero-overlap';
+			}
+
+			return $classes;
+		}
+	);
+}
+
 get_header();
 
 global $porto_settings, $porto_layout;
 
-$hero_enabled       = get_theme_mod( 'porto_child_hero_enable', true );
 $hero_intro         = get_theme_mod( 'porto_child_hero_intro', __( 'New Arrival', 'porto-child' ) );
 $hero_title         = get_theme_mod( 'porto_child_hero_title', __( 'Find Your New Favourite Sneakers', 'porto-child' ) );
 $hero_description   = get_theme_mod( 'porto_child_hero_description', __( 'Step into a world of style with our revolutionary fashion destination — your ultimate stop for trendsetting looks and curated collections.', 'porto-child' ) );
