@@ -120,10 +120,25 @@ add_filter( 'woocommerce_webhook_payload', function( $payload, $resource, $resou
 }, 10, 3 );
 
 /**
- * Make the front-page header float above the hero banner.
+ * Determine whether the bespoke front-page hero should render.
+ */
+function porto_child_is_front_hero_enabled() {
+    if ( is_admin() && ! is_customize_preview() ) {
+        return false;
+    }
+
+    if ( ! is_front_page() && ! is_customize_preview() ) {
+        return false;
+    }
+
+    return (bool) get_theme_mod( 'porto_child_hero_enable', true );
+}
+
+/**
+ * Make the front-page header float above the hero banner when enabled.
  */
 add_filter( 'body_class', function( $classes ) {
-    if ( is_front_page() && ! is_admin() ) {
+    if ( porto_child_is_front_hero_enabled() ) {
         $classes[] = 'porto-hero-overlap';
     }
 
@@ -131,167 +146,208 @@ add_filter( 'body_class', function( $classes ) {
 } );
 
 /**
- * Output a hero slider before the main content on the front page.
+ * Register Customizer settings for the front-page hero content.
  */
-add_action( 'porto_before_content', 'porto_child_output_front_hero', 5 );
+add_action( 'customize_register', function( $wp_customize ) {
+    $wp_customize->add_section( 'porto_child_front_hero', array(
+        'title'       => __( 'Front Page Hero', 'porto-child' ),
+        'description' => __( 'Control the hero banner that appears beneath the overlaid header on the front page.', 'porto-child' ),
+        'priority'    => 160,
+    ) );
 
-function porto_child_output_front_hero() {
-    if ( ! is_front_page() || is_admin() ) {
+    $wp_customize->add_setting( 'porto_child_hero_enable', array(
+        'default'           => true,
+        'sanitize_callback' => function( $value ) {
+            return (bool) $value;
+        },
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_enable', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Display hero banner on the front page', 'porto-child' ),
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_heading', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_heading', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Headline', 'porto-child' ),
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_subheading', array(
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_subheading', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Supporting text', 'porto-child' ),
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_primary_label', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_primary_label', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Primary button label', 'porto-child' ),
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_primary_url', array(
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_primary_url', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Primary button link', 'porto-child' ),
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_secondary_label', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_secondary_label', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Secondary button label', 'porto-child' ),
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_secondary_url', array(
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+
+    $wp_customize->add_control( 'porto_child_hero_secondary_url', array(
+        'section' => 'porto_child_front_hero',
+        'label'   => __( 'Secondary button link', 'porto-child' ),
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'porto_child_hero_image', array(
+        'sanitize_callback' => 'absint',
+    ) );
+
+    if ( class_exists( 'WP_Customize_Media_Control' ) ) {
+        $wp_customize->add_control( new WP_Customize_Media_Control(
+            $wp_customize,
+            'porto_child_hero_image',
+            array(
+                'section'   => 'porto_child_front_hero',
+                'label'     => __( 'Background image', 'porto-child' ),
+                'mime_type' => 'image',
+            )
+        ) );
+    }
+} );
+
+/**
+ * Output the front-page hero banner before the main content.
+ */
+add_action( 'porto_before_content', function() {
+    if ( ! porto_child_is_front_hero_enabled() ) {
         return;
     }
 
     $front_id = get_queried_object_id();
-    $featured = '';
 
-    if ( $front_id && has_post_thumbnail( $front_id ) ) {
-        $featured = get_the_post_thumbnail_url( $front_id, 'full' );
+    $image_id = absint( get_theme_mod( 'porto_child_hero_image' ) );
+    $image    = $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : '';
+
+    if ( ! $image && $front_id && has_post_thumbnail( $front_id ) ) {
+        $image = get_the_post_thumbnail_url( $front_id, 'full' );
     }
 
-    if ( ! $featured ) {
-        $fallback = get_stylesheet_directory() . '/images/hero-fallback.jpg';
-        if ( file_exists( $fallback ) ) {
-            $featured = get_stylesheet_directory_uri() . '/images/hero-fallback.jpg';
-        }
+    $headline      = get_theme_mod( 'porto_child_hero_heading' );
+    $subheading    = get_theme_mod( 'porto_child_hero_subheading' );
+    $primary_url   = get_theme_mod( 'porto_child_hero_primary_url' );
+    $primary_cta   = get_theme_mod( 'porto_child_hero_primary_label' );
+    $secondary_url = get_theme_mod( 'porto_child_hero_secondary_url', false );
+    $secondary_cta = get_theme_mod( 'porto_child_hero_secondary_label', false );
+
+    if ( ! $headline && $front_id ) {
+        $headline = get_the_title( $front_id );
     }
 
-    $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
-
-    $default_slides = [
-        [
-            'eyebrow'         => __( 'Limited Release', 'porto-child' ),
-            'title'           => __( 'Run the city in feather-light comfort', 'porto-child' ),
-            'description'     => __( 'Ultra-responsive cushioning, breathable mesh uppers, and reflective accents make the Velocity X your go-to sneaker for sunrise sessions and late-night laps.', 'porto-child' ),
-            'primary_label'   => __( 'Shop the men’s drop', 'porto-child' ),
-            'primary_url'     => $shop_url ?: home_url( '/' ),
-            'secondary_label' => __( 'View lookbook', 'porto-child' ),
-            'secondary_url'   => home_url( '/lookbook/' ),
-            'image'           => $featured,
-        ],
-        [
-            'eyebrow'         => __( 'Everyday essential', 'porto-child' ),
-            'title'           => __( 'Support that keeps pace with you', 'porto-child' ),
-            'description'     => __( 'A sculpted midsole hugs your arch while the grippy outsole keeps you grounded on rainy commutes and weekend long runs alike.', 'porto-child' ),
-            'primary_label'   => __( 'Shop women’s sneakers', 'porto-child' ),
-            'primary_url'     => $shop_url ? trailingslashit( $shop_url ) . '#women' : home_url( '/women/' ),
-            'secondary_label' => __( 'Find your fit', 'porto-child' ),
-            'secondary_url'   => home_url( '/size-guide/' ),
-            'image'           => $featured,
-        ],
-        [
-            'eyebrow'         => __( 'Performance engineered', 'porto-child' ),
-            'title'           => __( 'Built for miles, styled for anywhere', 'porto-child' ),
-            'description'     => __( 'From tempo training to post-run coffee, the Velocity collection pairs technical materials with a bold silhouette inspired by sport heritage.', 'porto-child' ),
-            'primary_label'   => __( 'Customize yours', 'porto-child' ),
-            'primary_url'     => home_url( '/customizer/' ),
-            'secondary_label' => __( 'Explore accessories', 'porto-child' ),
-            'secondary_url'   => home_url( '/gear/' ),
-            'image'           => $featured,
-        ],
-    ];
-
-    $slides = apply_filters( 'porto_child_hero_slides', $default_slides );
-    $slides = array_values( array_filter( $slides, 'is_array' ) );
-
-    if ( empty( $slides ) ) {
-        return;
+    if ( ! $subheading && $front_id ) {
+        $summary = get_post_meta( $front_id, '_yoast_wpseo_metadesc', true );
+        $subheading = $summary ? $summary : get_bloginfo( 'description' );
     }
 
-    $autoplay = apply_filters( 'porto_child_hero_autoplay', 7000 );
-    $autoplay = absint( $autoplay );
-
-    echo '<section class="porto-hero-banner" data-hero-autoplay="' . esc_attr( $autoplay ) . '">';
-    echo '<div class="porto-hero-banner__slides">';
-
-    foreach ( $slides as $index => $slide ) {
-        $classes = 'porto-hero-banner__slide';
-        if ( 0 === $index ) {
-            $classes .= ' is-active';
-        }
-
-        $image = isset( $slide['image'] ) && $slide['image'] ? $slide['image'] : $featured;
-        $style = $image ? ' style="--porto-hero-image:url(' . esc_url( $image ) . ');"' : '';
-
-        $title = isset( $slide['title'] ) ? wp_strip_all_tags( $slide['title'] ) : '';
-
-        echo '<article class="' . esc_attr( $classes ) . '" role="group" aria-roledescription="slide" aria-label="' . esc_attr( $title ) . '" aria-hidden="' . ( 0 === $index ? 'false' : 'true' ) . '" data-hero-index="' . esc_attr( $index ) . '"' . $style . '>';
-        echo '<div class="porto-hero-banner__media" aria-hidden="true"></div>';
-        echo '<div class="porto-hero-banner__inner container">';
-        echo '<div class="porto-hero-banner__copy">';
-
-        if ( ! empty( $slide['eyebrow'] ) ) {
-            echo '<p class="porto-hero-banner__eyebrow">' . esc_html( $slide['eyebrow'] ) . '</p>';
-        }
-
-        if ( $title ) {
-            echo '<h1 class="porto-hero-banner__title">' . esc_html( $title ) . '</h1>';
-        }
-
-        if ( ! empty( $slide['description'] ) ) {
-            echo '<p class="porto-hero-banner__description">' . esc_html( $slide['description'] ) . '</p>';
-        }
-
-        $has_primary   = ! empty( $slide['primary_label'] ) && ! empty( $slide['primary_url'] );
-        $has_secondary = ! empty( $slide['secondary_label'] ) && ! empty( $slide['secondary_url'] );
-
-        if ( $has_primary || $has_secondary ) {
-            echo '<div class="porto-hero-banner__actions">';
-
-            if ( $has_primary ) {
-                echo '<a class="porto-hero-banner__btn porto-hero-banner__btn--primary" href="' . esc_url( $slide['primary_url'] ) . '">' . esc_html( $slide['primary_label'] ) . '</a>';
-            }
-
-            if ( $has_secondary ) {
-                echo '<a class="porto-hero-banner__btn porto-hero-banner__btn--ghost" href="' . esc_url( $slide['secondary_url'] ) . '">' . esc_html( $slide['secondary_label'] ) . '</a>';
-            }
-
-            echo '</div>';
-        }
-
-        echo '</div>'; // .porto-hero-banner__copy
-        echo '</div>'; // .porto-hero-banner__inner
-        echo '</article>';
+    if ( ! $primary_cta ) {
+        $primary_cta = __( 'Shop now', 'porto-child' );
     }
 
-    echo '</div>'; // .porto-hero-banner__slides
+    if ( ! $primary_url ) {
+        $primary_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+    }
 
-    if ( count( $slides ) > 1 ) {
-        echo '<div class="porto-hero-banner__controls">';
-        echo '<button type="button" class="porto-hero-banner__control porto-hero-banner__control--prev" aria-label="' . esc_attr__( 'Previous slide', 'porto-child' ) . '" data-hero-prev></button>';
-        echo '<button type="button" class="porto-hero-banner__control porto-hero-banner__control--next" aria-label="' . esc_attr__( 'Next slide', 'porto-child' ) . '" data-hero-next></button>';
-        echo '</div>';
+    if ( false === $secondary_cta ) {
+        $secondary_cta = __( 'View collection', 'porto-child' );
+    }
 
-        echo '<div class="porto-hero-banner__dots" role="tablist" aria-label="' . esc_attr__( 'Hero slides', 'porto-child' ) . '">';
+    if ( false === $secondary_url ) {
+        $secondary_url = home_url( '/collections/' );
+    }
 
-        foreach ( $slides as $index => $slide ) {
-            $title = isset( $slide['title'] ) ? wp_strip_all_tags( $slide['title'] ) : __( 'Slide', 'porto-child' );
-            $is_active = 0 === $index;
-            echo '<button type="button" class="porto-hero-banner__dot' . ( $is_active ? ' is-active' : '' ) . '" data-hero-nav="' . esc_attr( $index ) . '" aria-label="' . esc_attr( $title ) . '"' . ( $is_active ? ' aria-current="true"' : '' ) . '></button>';
+    echo '<section class="porto-front-hero">';
+
+    if ( $image ) {
+        echo '<div class="porto-front-hero__media" style="background-image:url(' . esc_url( $image ) . ');"></div>';
+    } else {
+        echo '<div class="porto-front-hero__media"></div>';
+    }
+
+    echo '<div class="porto-front-hero__inner">';
+    echo '<div class="container">';
+    echo '<div class="porto-front-hero__content">';
+
+    if ( $headline ) {
+        echo '<h1 class="porto-front-hero__title">' . esc_html( $headline ) . '</h1>';
+    }
+
+    if ( $subheading ) {
+        $subheading_markup = wpautop( wp_kses_post( $subheading ) );
+        echo '<div class="porto-front-hero__subtitle">' . wp_kses_post( $subheading_markup ) . '</div>';
+    }
+
+    if ( $primary_cta && $primary_url ) {
+        echo '<div class="porto-front-hero__actions">';
+        echo '<a class="porto-front-hero__btn porto-front-hero__btn--primary" href="' . esc_url( $primary_url ) . '">' . esc_html( $primary_cta ) . '</a>';
+
+        if ( $secondary_cta && $secondary_url ) {
+            echo '<a class="porto-front-hero__btn porto-front-hero__btn--ghost" href="' . esc_url( $secondary_url ) . '">' . esc_html( $secondary_cta ) . '</a>';
         }
 
         echo '</div>';
     }
 
+    echo '</div>'; // .porto-front-hero__content
+    echo '</div>'; // .container
+    echo '</div>'; // .porto-front-hero__inner
     echo '</section>';
-}
+}, 5 );
 
 /**
- * Enqueue front-page hero assets.
+ * Enqueue assets needed for the hero overlay.
  */
-add_action( 'wp_enqueue_scripts', 'porto_child_enqueue_hero_assets', 1100 );
-
-function porto_child_enqueue_hero_assets() {
-    if ( ! is_front_page() || is_admin() ) {
+add_action( 'wp_enqueue_scripts', function() {
+    if ( ! porto_child_is_front_hero_enabled() ) {
         return;
     }
 
     wp_enqueue_script(
-        'porto-child-hero-slider',
-        get_stylesheet_directory_uri() . '/js/hero-slider.js',
+        'porto-child-hero-banner',
+        get_stylesheet_directory_uri() . '/js/hero-banner.js',
         array(),
         '1.0.0',
         true
     );
-}
+}, 1100 );
 
 
 

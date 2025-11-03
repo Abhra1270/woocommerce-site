@@ -19,9 +19,15 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
 
 body.porto-hero-overlap .header-wrapper {
     position: absolute;
-    inset: 0 0 auto 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     pointer-events: none;
+}
+
+body.porto-hero-overlap .header-wrapper > * {
+    pointer-events: auto;
 }
 
 body.porto-hero-overlap.admin-bar .header-wrapper {
@@ -34,10 +40,6 @@ body.porto-hero-overlap.admin-bar .header-wrapper {
     }
 }
 
-body.porto-hero-overlap .header-wrapper > * {
-    pointer-events: auto;
-}
-
 body.porto-hero-overlap #header,
 body.porto-hero-overlap #header .header-main,
 body.porto-hero-overlap #header .header-main .header-left,
@@ -45,6 +47,7 @@ body.porto-hero-overlap #header .header-main .header-center,
 body.porto-hero-overlap #header .header-main .header-right {
     background: transparent !important;
     box-shadow: none !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.porto-hero-overlap #header .main-menu > li > a,
@@ -63,278 +66,147 @@ body.porto-hero-overlap #header .main-menu > li.menu-item-has-children:hover > a
     color: #ffe27a !important;
 }
 
-body.porto-hero-overlap .header-main .main-menu .popup {
-    top: calc(100% + 18px);
-}
-
 body.porto-hero-header-solid .header-wrapper,
 body.porto-hero-header-solid #header,
 body.porto-hero-header-solid #header .header-main,
 body.porto-hero-header-solid #header .header-main .header-left,
 body.porto-hero-header-solid #header .header-main .header-center,
 body.porto-hero-header-solid #header .header-main .header-right {
-    background: rgba(11, 13, 15, 0.9) !important;
+    background: rgba(9, 12, 17, 0.92) !important;
     backdrop-filter: blur(12px);
+    box-shadow: 0 18px 48px rgba(4, 7, 12, 0.45);
 }
 
-.porto-hero-banner {
+.porto-front-hero {
     position: relative;
-    color: #ffffff;
     overflow: hidden;
-    min-height: 72vh;
-    display: flex;
-    align-items: stretch;
-}
-
-.porto-hero-banner__slides {
-    position: relative;
-    width: 100%;
-}
-
-.porto-hero-banner__slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.6s ease;
+    color: #ffffff;
+    min-height: clamp(480px, 80vh, 760px);
     display: flex;
     align-items: center;
+    background: #070a10;
 }
 
-.porto-hero-banner__slide.is-active {
-    opacity: 1;
-    z-index: 1;
-}
-
-.porto-hero-banner__media {
+.porto-front-hero__media {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 25% 30%, rgba(255, 226, 122, 0.35), transparent 55%),
-                radial-gradient(circle at 75% 20%, rgba(255, 105, 97, 0.25), transparent 60%),
-                #080b12;
-}
-
-.porto-hero-banner__slide[style*="--porto-hero-image"] .porto-hero-banner__media::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: var(--porto-hero-image);
     background-size: cover;
     background-position: center;
-    opacity: 0.82;
+    filter: saturate(1.05) contrast(1.05);
 }
 
-.porto-hero-banner__media::after {
+.porto-front-hero__media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, rgba(7, 10, 15, 0.7) 0%, rgba(7, 10, 15, 0.2) 55%, rgba(7, 10, 15, 0.85) 100%);
+    background: linear-gradient(115deg, rgba(7, 9, 14, 0.85) 10%, rgba(7, 9, 14, 0.35) 55%, rgba(7, 9, 14, 0.8) 95%);
 }
 
-.porto-hero-banner__inner {
+.porto-front-hero__inner {
     position: relative;
-    padding: clamp(5rem, 8vw, 7rem) 1.5rem;
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
 }
 
-.porto-hero-banner__copy {
+.porto-front-hero__content {
     max-width: 36rem;
 }
 
-.porto-hero-banner__eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.32em;
-    font-size: 0.75rem;
-    margin: 0 0 1rem;
-    font-weight: 600;
-    color: #ffe27a;
-}
-
-.porto-hero-banner__title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+.porto-front-hero__title {
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    line-height: 1.05;
     font-weight: 700;
-    line-height: 1.1;
     margin-bottom: 1.25rem;
 }
 
-.porto-hero-banner__description {
-    font-size: 1rem;
-    line-height: 1.65;
-    margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.86);
+.porto-front-hero__subtitle {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 2.25rem;
 }
 
-.porto-hero-banner__actions {
+.porto-front-hero__subtitle p {
+    margin-bottom: 1rem;
+}
+
+.porto-front-hero__subtitle p:last-child {
+    margin-bottom: 0;
+}
+
+.porto-front-hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem 1rem;
+    gap: 0.8rem 1.1rem;
 }
 
-.porto-hero-banner__btn {
+.porto-front-hero__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 1.8rem;
+    padding: 0.9rem 1.9rem;
     border-radius: 999px;
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
-    text-transform: uppercase;
     letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
-.porto-hero-banner__btn--primary {
+.porto-front-hero__btn--primary {
     background: linear-gradient(135deg, #ff944d, #ff5e62);
     color: #0a0d12;
-    box-shadow: 0 20px 40px rgba(255, 94, 98, 0.35);
+    box-shadow: 0 20px 38px rgba(255, 94, 98, 0.35);
 }
 
-.porto-hero-banner__btn--ghost {
+.porto-front-hero__btn--ghost {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: #ffffff;
 }
 
-.porto-hero-banner__btn:hover,
-.porto-hero-banner__btn:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 26px 48px rgba(0, 0, 0, 0.35);
+.porto-front-hero__btn:hover,
+.porto-front-hero__btn:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 32px rgba(255, 94, 98, 0.4);
+    text-decoration: none;
+}
+
+.porto-front-hero__btn--ghost:hover,
+.porto-front-hero__btn--ghost:focus-visible {
+    background: rgba(255, 255, 255, 0.92);
     color: #0a0d12;
-    background: #ffe27a;
-}
-
-.porto-hero-banner__btn--ghost:hover,
-.porto-hero-banner__btn--ghost:focus {
-    color: #0a0d12;
-}
-
-.porto-hero-banner__controls {
-    position: absolute;
-    inset: 50% auto auto 1.5rem;
-    display: flex;
-    gap: 0.75rem;
-    transform: translateY(-50%);
-    z-index: 2;
-}
-
-.porto-hero-banner__control {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgba(10, 13, 18, 0.45);
-    color: #ffffff;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.porto-hero-banner__control::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    width: 12px;
-    height: 12px;
-    mask-image: linear-gradient(90deg, #000, #000);
-    background: currentColor;
-    transform: rotate(45deg);
-}
-
-.porto-hero-banner__control--prev::after {
-    clip-path: polygon(30% 50%, 70% 10%, 70% 90%);
-}
-
-.porto-hero-banner__control--next::after {
-    clip-path: polygon(70% 50%, 30% 10%, 30% 90%);
-}
-
-.porto-hero-banner__control:hover,
-.porto-hero-banner__control:focus {
-    background: rgba(255, 255, 255, 0.9);
-    color: #0a0d12;
-    transform: translateY(-2px);
-}
-
-.porto-hero-banner__dots {
-    position: absolute;
-    inset: auto 0 2.5rem 0;
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    z-index: 2;
-}
-
-.porto-hero-banner__dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    border: none;
-    cursor: pointer;
-    transition: transform 0.25s ease, background-color 0.25s ease;
-}
-
-.porto-hero-banner__dot.is-active,
-.porto-hero-banner__dot:hover,
-.porto-hero-banner__dot:focus {
-    background: #ffe27a;
-    transform: scale(1.1);
 }
 
 @media (max-width: 1024px) {
-    .porto-hero-banner {
-        min-height: 60vh;
+    .porto-front-hero__inner {
+        padding: clamp(3.5rem, 10vw, 5.5rem) 0;
     }
 
-    .porto-hero-banner__controls {
-        inset: auto 1.5rem 1.5rem auto;
-        transform: none;
-    }
-
-    .porto-hero-banner__inner {
-        padding: clamp(4rem, 10vw, 5.5rem) 1.5rem 3.5rem;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .porto-hero-banner__copy {
-        max-width: 30rem;
-        margin: 0 auto;
-    }
-
-    .porto-hero-banner__actions {
-        justify-content: center;
+    .porto-front-hero__content {
+        max-width: 32rem;
     }
 }
 
 @media (max-width: 767px) {
-    .porto-hero-banner {
+    body.porto-hero-overlap .header-wrapper {
+        position: static;
+    }
+
+    body.porto-hero-overlap #header,
+    body.porto-hero-overlap #header .header-main {
+        background: rgba(10, 12, 16, 0.88) !important;
+    }
+
+    .porto-front-hero {
         min-height: 520px;
     }
 
-    .porto-hero-banner__control {
-        display: none;
+    .porto-front-hero__inner {
+        padding: 4rem 0 3.5rem;
     }
 
-    .porto-hero-banner__dots {
-        bottom: 1.75rem;
-    }
-}
-
-@media (max-width: 575px) {
-    .porto-hero-banner__title {
-        font-size: clamp(2.1rem, 9vw, 2.65rem);
-    }
-
-    .porto-hero-banner__description {
-        font-size: 0.95rem;
-    }
-
-    .porto-hero-banner__btn {
-        width: 100%;
-        justify-content: center;
+    .porto-front-hero__actions {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
