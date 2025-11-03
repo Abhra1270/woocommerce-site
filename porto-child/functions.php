@@ -403,21 +403,21 @@ function porto_child_customize_register_home_hero( $wp_customize ) {
     );
 
     $color_controls = array(
-        'porto_child_hero_background_top'    => array(
+        'porto_child_hero_background_top'      => array(
             'label'   => __( 'Background gradient (top)', 'porto-child' ),
             'default' => '#f6f0ff',
         ),
-        'porto_child_hero_background_bottom' => array(
+        'porto_child_hero_background_bottom'   => array(
             'label'   => __( 'Background gradient (bottom)', 'porto-child' ),
             'default' => '#ffffff',
         ),
-        'porto_child_hero_card_background'   => array(
-            'label'   => __( 'Card background', 'porto-child' ),
-            'default' => '#f9da8d',
-        ),
-        'porto_child_hero_accent_color'      => array(
+        'porto_child_hero_accent_color'        => array(
             'label'   => __( 'Accent color', 'porto-child' ),
             'default' => '#f3d6ff',
+        ),
+        'porto_child_hero_overlay_background'  => array(
+            'label'   => __( 'Overlay background', 'porto-child' ),
+            'default' => '#111827',
         ),
     );
 
@@ -461,17 +461,22 @@ function porto_child_enqueue_home_hero_styles() {
         return;
     }
 
-    $bg_top    = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_top', '#f6f0ff' ) ) ?: '#f6f0ff';
-    $bg_bottom = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_bottom', '#ffffff' ) ) ?: '#ffffff';
-    $card_bg   = sanitize_hex_color( get_theme_mod( 'porto_child_hero_card_background', '#f9da8d' ) ) ?: '#f9da8d';
-    $accent    = sanitize_hex_color( get_theme_mod( 'porto_child_hero_accent_color', '#f3d6ff' ) ) ?: '#f3d6ff';
+    $bg_top     = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_top', '#f6f0ff' ) ) ?: '#f6f0ff';
+    $bg_bottom  = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_bottom', '#ffffff' ) ) ?: '#ffffff';
+    $accent     = sanitize_hex_color( get_theme_mod( 'porto_child_hero_accent_color', '#f3d6ff' ) ) ?: '#f3d6ff';
+    $overlay    = sanitize_hex_color( get_theme_mod( 'porto_child_hero_overlay_background', '#111827' ) ) ?: '#111827';
+
+    $overlay_rgba = porto_child_hex_to_rgba( $overlay, 0.78 ) ?: 'rgba(17, 24, 39, 0.78)';
+    $accent_soft  = porto_child_hex_to_rgba( $accent, 0.24 ) ?: 'rgba(255, 255, 255, 0.18)';
+    $accent_strong = porto_child_hex_to_rgba( $accent, 0.45 ) ?: 'rgba(255, 255, 255, 0.32)';
 
     $custom_css = sprintf(
-        '.home-hero{--hero-bg-top:%1$s;--hero-bg-bottom:%2$s;--hero-card-bg:%3$s;--hero-accent:%4$s;background-image:linear-gradient(180deg,%1$s 0%%,%2$s 58%%);} .home-hero__bubble{background:var(--hero-accent);} .home-hero__device-top{background:var(--hero-accent);} .home-hero__device::after{background:var(--hero-accent);} .home-hero__device-placeholder{background:var(--hero-accent);} .home-hero__card{background:var(--hero-card-bg);}',
+        '.home-hero{--hero-bg-top:%1$s;--hero-bg-bottom:%2$s;--hero-overlay-bg:%3$s;--hero-accent-soft:%4$s;--hero-accent-strong:%5$s;} .home-hero--no-image{background-image:linear-gradient(180deg,%1$s 0%%,%2$s 100%%);}',
         $bg_top,
         $bg_bottom,
-        $card_bg,
-        $accent
+        $overlay_rgba,
+        $accent_soft,
+        $accent_strong
     );
 
     wp_add_inline_style( 'styles-child', $custom_css );
@@ -497,6 +502,28 @@ function porto_child_sanitize_color( $color ) {
     $color = sanitize_hex_color( $color );
 
     return $color ? $color : '';
+}
+
+function porto_child_hex_to_rgba( $hex, $alpha = 1 ) {
+    $hex = ltrim( (string) $hex, '#' );
+
+    if ( 3 === strlen( $hex ) ) {
+        $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+    }
+
+    if ( 6 !== strlen( $hex ) ) {
+        return '';
+    }
+
+    $alpha = max( 0, min( 1, floatval( $alpha ) ) );
+
+    $r = hexdec( substr( $hex, 0, 2 ) );
+    $g = hexdec( substr( $hex, 2, 2 ) );
+    $b = hexdec( substr( $hex, 4, 2 ) );
+
+    $alpha_formatted = rtrim( rtrim( sprintf( '%.3f', $alpha ), '0' ), '.' );
+
+    return sprintf( 'rgba(%d, %d, %d, %s)', $r, $g, $b, $alpha_formatted );
 }
 
 // 4) On order → processing, queue a Delhivery push via Action Scheduler

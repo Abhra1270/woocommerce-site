@@ -93,47 +93,54 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
 
 .home-hero {
     position: relative;
-    padding-block: clamp(8.5rem, 10vw, 12.5rem) clamp(4rem, 7vw, 6.5rem);
+    width: 100%;
+    min-height: clamp(28rem, 70vh, 42rem);
+    margin: 0;
+    background-color: var(--hero-bg-bottom, #0f172a);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #ffffff;
     overflow: hidden;
-    background-image: linear-gradient(180deg, var(--hero-bg-top, #f6f0ff) 0%, var(--hero-bg-bottom, #ffffff) 58%);
+    isolation: isolate;
 }
 
-.home-hero::after {
-    content: '';
+.home-hero--no-image {
+    background-image: linear-gradient(180deg, var(--hero-bg-top, #312e81) 0%, var(--hero-bg-bottom, #0f172a) 100%);
+}
+
+.home-hero__overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(120% 120% at 85% 20%, rgba(236, 72, 153, 0.18) 0%, transparent 60%),
-                radial-gradient(90% 90% at 15% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 58%);
-    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: clamp(4.5rem, 10vw, 6.5rem) clamp(1.5rem, 7vw, 4rem);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%);
 }
 
-.home-hero__bubble {
-    position: absolute;
-    width: clamp(18rem, 35vw, 28rem);
-    height: clamp(18rem, 35vw, 28rem);
-    border-radius: 999px;
-    top: clamp(-8rem, -4vw, -4rem);
-    right: clamp(-6rem, -3vw, -2rem);
-    background: var(--hero-accent, #f3d6ff);
-    filter: blur(0px);
-    opacity: 0.65;
-    pointer-events: none;
+.home-hero__overlay > .container {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
-.home-hero__inner {
-    position: relative;
-    display: grid;
-    gap: clamp(2.5rem, 6vw, 6rem);
-    align-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.home-hero__copy {
+.home-hero__content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-width: 540px;
-    z-index: 2;
+    padding: clamp(2rem, 5vw, 3rem);
+    border-radius: 28px;
+    max-width: min(560px, 100%);
+    background: var(--hero-overlay-bg, rgba(17, 24, 39, 0.78));
+    box-shadow: 0 32px 60px rgba(15, 23, 42, 0.35);
+    backdrop-filter: blur(18px);
+}
+
+.home-hero__content > * {
+    margin: 0;
 }
 
 .home-hero__eyebrow {
@@ -147,22 +154,23 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #5a1f9a;
-    background: rgba(90, 31, 154, 0.12);
-    box-shadow: inset 0 0 0 1px rgba(90, 31, 154, 0.18);
+    color: #ffffff;
+    background: var(--hero-accent-soft, rgba(255, 255, 255, 0.16));
+    border: 1px solid var(--hero-accent-strong, rgba(255, 255, 255, 0.32));
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
 }
 
 .home-hero__title {
     margin: 0;
-    font-size: clamp(2.4rem, 5vw, 3.75rem);
+    font-size: clamp(2.6rem, 6vw, 4rem);
     line-height: 1.05;
     font-weight: 700;
-    color: #1e1445;
+    color: #ffffff;
 }
 
 .home-hero__summary {
     margin: 0;
-    color: #43336b;
+    color: rgba(226, 232, 240, 0.92);
     font-size: clamp(1rem, 1.6vw, 1.15rem);
     line-height: 1.7;
     max-width: 46ch;
@@ -178,149 +186,23 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 2.6rem;
+    padding: 0.95rem 2.8rem;
     border-radius: 999px;
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
+    color: #ffffff;
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.02em;
     text-decoration: none;
-    box-shadow: 0 20px 35px rgba(79, 70, 229, 0.25);
+    box-shadow: 0 22px 45px rgba(59, 130, 246, 0.28);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .home-hero__primary:hover,
 .home-hero__primary:focus {
     transform: translateY(-2px);
-    box-shadow: 0 24px 40px rgba(79, 70, 229, 0.28);
-    color: #fff;
-}
-
-.home-hero__device {
-    position: relative;
-    width: min(100%, 360px);
-    margin-inline: auto;
-    border-radius: 38px;
-    padding: 1.75rem 1.75rem 2.1rem;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 35px 55px rgba(43, 17, 95, 0.18);
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-.home-hero__device::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 38px;
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(16px);
-    z-index: -2;
-}
-
-.home-hero__device::after {
-    content: '';
-    position: absolute;
-    inset: 1rem;
-    border-radius: 28px;
-    background: var(--hero-accent, #f3d6ff);
-    opacity: 0.45;
-    filter: blur(40px);
-    z-index: -1;
-}
-
-.home-hero__device-frame {
-    position: absolute;
-    top: 1.1rem;
-    left: 50%;
-    width: 40%;
-    height: 6px;
-    transform: translateX(-50%);
-    background: rgba(15, 23, 42, 0.25);
-    border-radius: 999px;
-}
-
-.home-hero__device-top {
-    position: relative;
-    border-radius: 28px;
-    padding: clamp(1.5rem, 4vw, 2.4rem);
-    background: var(--hero-accent, #f3d6ff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: clamp(200px, 32vw, 260px);
-    overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-}
-
-.home-hero__device-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 22px 35px rgba(32, 10, 71, 0.25));
-}
-
-.home-hero__device-placeholder {
-    width: 100%;
-    height: 100%;
-    border-radius: 26px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(0, 0, 0, 0.08) 100%);
-}
-
-.home-hero__card {
-    background: var(--hero-card-bg, #f9da8d);
-    border-radius: 30px;
-    padding: clamp(1.6rem, 4vw, 2.2rem);
-    box-shadow: 0 25px 35px rgba(129, 64, 12, 0.18);
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    color: #2d1b00;
-}
-
-.home-hero__card-title {
-    margin: 0;
-    font-size: clamp(1.35rem, 4vw, 1.7rem);
-    line-height: 1.35;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-}
-
-.home-hero__card-desc {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: rgba(45, 27, 0, 0.78);
-}
-
-.home-hero__card-nav {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    align-self: flex-end;
-    padding-inline: 1.2rem;
-    padding-block: 0.65rem;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.12);
-    color: inherit;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform 0.25s ease, background-color 0.25s ease;
-}
-
-.home-hero__card-nav:hover,
-.home-hero__card-nav:focus {
-    transform: translateX(4px);
-    background: rgba(0, 0, 0, 0.18);
-}
-
-.home-hero__card-icon {
-    width: 1.1rem;
-    height: 1.1rem;
+    box-shadow: 0 28px 54px rgba(59, 130, 246, 0.34);
+    color: #ffffff;
 }
 
 .home-main {
@@ -333,12 +215,18 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
 }
 
 @media (max-width: 991px) {
-    .home-hero__inner {
-        text-align: center;
+    .home-hero__overlay {
+        align-items: center;
+        padding: clamp(3.5rem, 12vw, 5rem) clamp(1rem, 6vw, 2.5rem);
     }
 
-    .home-hero__copy {
-        margin-inline: auto;
+    .home-hero__overlay > .container {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-hero__content {
+        text-align: center;
         align-items: center;
     }
 
@@ -349,26 +237,18 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
 
 @media (max-width: 767px) {
     .home-hero {
-        padding-block: clamp(7.5rem, 16vw, 9rem) clamp(3rem, 16vw, 5rem);
+        min-height: clamp(24rem, 90vh, 32rem);
     }
 
-    .home-hero__bubble {
-        width: clamp(14rem, 45vw, 18rem);
-        height: clamp(14rem, 45vw, 18rem);
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        top: -6rem;
+    .home-hero__content {
+        padding: clamp(1.75rem, 8vw, 2.5rem);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .home-hero__primary,
-    .home-hero__card-nav {
+    .home-hero__primary:focus,
+    .home-hero__primary:hover {
         transition: none;
-    }
-
-    .home-hero__device {
-        animation: none;
     }
 }
