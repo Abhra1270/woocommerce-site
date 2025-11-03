@@ -12,3 +12,329 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
 */
 
 /*************** ADD YOUR CUSTOM CSS HERE  ***************/
+
+/*
+ * Front-page hero banner + overlay header treatment.
+ */
+
+body.porto-hero-overlap .header-wrapper {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+body.porto-hero-overlap.admin-bar .header-wrapper {
+    top: 32px;
+}
+
+@media (max-width: 782px) {
+    body.porto-hero-overlap.admin-bar .header-wrapper {
+        top: 46px;
+    }
+}
+
+body.porto-hero-overlap .header-wrapper > * {
+    pointer-events: auto;
+}
+
+body.porto-hero-overlap #header,
+body.porto-hero-overlap #header .header-main,
+body.porto-hero-overlap #header .header-main .header-left,
+body.porto-hero-overlap #header .header-main .header-center,
+body.porto-hero-overlap #header .header-main .header-right {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body.porto-hero-overlap #header .main-menu > li > a,
+body.porto-hero-overlap #header .main-menu > li.menu-item-has-children > a,
+body.porto-hero-overlap #header .header-main .header-icon,
+body.porto-hero-overlap #header .header-main .porto-sicon-box .porto-sicon-header,
+body.porto-hero-overlap #header .header-main .porto-sicon-box .porto-sicon-description,
+body.porto-hero-overlap #header .header-main .header-contact li,
+body.porto-hero-overlap #header .header-main .header-contact a {
+    color: #ffffff !important;
+}
+
+body.porto-hero-overlap #header .main-menu > li > a:hover,
+body.porto-hero-overlap #header .main-menu > li.current-menu-item > a,
+body.porto-hero-overlap #header .main-menu > li.menu-item-has-children:hover > a {
+    color: #ffe27a !important;
+}
+
+body.porto-hero-overlap .header-main .main-menu .popup {
+    top: calc(100% + 18px);
+}
+
+body.porto-hero-header-solid .header-wrapper,
+body.porto-hero-header-solid #header,
+body.porto-hero-header-solid #header .header-main,
+body.porto-hero-header-solid #header .header-main .header-left,
+body.porto-hero-header-solid #header .header-main .header-center,
+body.porto-hero-header-solid #header .header-main .header-right {
+    background: rgba(11, 13, 15, 0.9) !important;
+    backdrop-filter: blur(12px);
+}
+
+.porto-hero-banner {
+    position: relative;
+    color: #ffffff;
+    overflow: hidden;
+    min-height: 72vh;
+    display: flex;
+    align-items: stretch;
+}
+
+.porto-hero-banner__slides {
+    position: relative;
+    width: 100%;
+}
+
+.porto-hero-banner__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: flex;
+    align-items: center;
+}
+
+.porto-hero-banner__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.porto-hero-banner__media {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 25% 30%, rgba(255, 226, 122, 0.35), transparent 55%),
+                radial-gradient(circle at 75% 20%, rgba(255, 105, 97, 0.25), transparent 60%),
+                #080b12;
+}
+
+.porto-hero-banner__slide[style*="--porto-hero-image"] .porto-hero-banner__media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--porto-hero-image);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.82;
+}
+
+.porto-hero-banner__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(7, 10, 15, 0.7) 0%, rgba(7, 10, 15, 0.2) 55%, rgba(7, 10, 15, 0.85) 100%);
+}
+
+.porto-hero-banner__inner {
+    position: relative;
+    padding: clamp(5rem, 8vw, 7rem) 1.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.porto-hero-banner__copy {
+    max-width: 36rem;
+}
+
+.porto-hero-banner__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 0.75rem;
+    margin: 0 0 1rem;
+    font-weight: 600;
+    color: #ffe27a;
+}
+
+.porto-hero-banner__title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+}
+
+.porto-hero-banner__description {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.86);
+}
+
+.porto-hero-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+}
+
+.porto-hero-banner__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.porto-hero-banner__btn--primary {
+    background: linear-gradient(135deg, #ff944d, #ff5e62);
+    color: #0a0d12;
+    box-shadow: 0 20px 40px rgba(255, 94, 98, 0.35);
+}
+
+.porto-hero-banner__btn--ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #ffffff;
+}
+
+.porto-hero-banner__btn:hover,
+.porto-hero-banner__btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 26px 48px rgba(0, 0, 0, 0.35);
+    color: #0a0d12;
+    background: #ffe27a;
+}
+
+.porto-hero-banner__btn--ghost:hover,
+.porto-hero-banner__btn--ghost:focus {
+    color: #0a0d12;
+}
+
+.porto-hero-banner__controls {
+    position: absolute;
+    inset: 50% auto auto 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.porto-hero-banner__control {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(10, 13, 18, 0.45);
+    color: #ffffff;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.porto-hero-banner__control::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    mask-image: linear-gradient(90deg, #000, #000);
+    background: currentColor;
+    transform: rotate(45deg);
+}
+
+.porto-hero-banner__control--prev::after {
+    clip-path: polygon(30% 50%, 70% 10%, 70% 90%);
+}
+
+.porto-hero-banner__control--next::after {
+    clip-path: polygon(70% 50%, 30% 10%, 30% 90%);
+}
+
+.porto-hero-banner__control:hover,
+.porto-hero-banner__control:focus {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0a0d12;
+    transform: translateY(-2px);
+}
+
+.porto-hero-banner__dots {
+    position: absolute;
+    inset: auto 0 2.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    z-index: 2;
+}
+
+.porto-hero-banner__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.porto-hero-banner__dot.is-active,
+.porto-hero-banner__dot:hover,
+.porto-hero-banner__dot:focus {
+    background: #ffe27a;
+    transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+    .porto-hero-banner {
+        min-height: 60vh;
+    }
+
+    .porto-hero-banner__controls {
+        inset: auto 1.5rem 1.5rem auto;
+        transform: none;
+    }
+
+    .porto-hero-banner__inner {
+        padding: clamp(4rem, 10vw, 5.5rem) 1.5rem 3.5rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .porto-hero-banner__copy {
+        max-width: 30rem;
+        margin: 0 auto;
+    }
+
+    .porto-hero-banner__actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .porto-hero-banner {
+        min-height: 520px;
+    }
+
+    .porto-hero-banner__control {
+        display: none;
+    }
+
+    .porto-hero-banner__dots {
+        bottom: 1.75rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .porto-hero-banner__title {
+        font-size: clamp(2.1rem, 9vw, 2.65rem);
+    }
+
+    .porto-hero-banner__description {
+        font-size: 0.95rem;
+    }
+
+    .porto-hero-banner__btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
