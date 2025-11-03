@@ -59,6 +59,37 @@ Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, 
     background: transparent;
 }
 
+.home-hero-overlap #header .mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: #0f172a;
+    font-size: 0;
+    line-height: 1;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.home-hero-overlap #header .mobile-toggle span,
+.home-hero-overlap #header .mobile-toggle strong,
+.home-hero-overlap #header .mobile-toggle em {
+    display: none;
+}
+
+.home-hero-overlap #header .mobile-toggle i {
+    font-size: 1.25rem;
+    color: #0f172a;
+}
+
+.home-hero-overlap #header .mobile-toggle:hover,
+.home-hero-overlap #header .mobile-toggle:focus,
+.home-hero-overlap #header .mobile-toggle:focus-visible {
+    background: rgba(15, 23, 42, 0.14);
+    color: #0f172a;
+}
 
 .home-hero {
     position: relative;
