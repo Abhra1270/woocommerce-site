@@ -17,30 +17,25 @@ $hero_title         = get_theme_mod( 'porto_child_hero_title', __( 'Find Your Ne
 $hero_description   = get_theme_mod( 'porto_child_hero_description', __( 'Step into a world of style with our revolutionary fashion destination — your ultimate stop for trendsetting looks and curated collections.', 'porto-child' ) );
 $hero_button_text   = get_theme_mod( 'porto_child_hero_button_text', __( 'Shop Collection', 'porto-child' ) );
 $hero_button_url    = get_theme_mod( 'porto_child_hero_button_url', '#content' );
-$hero_image_id      = get_theme_mod( 'porto_child_hero_image' );
-$hero_card_heading  = get_theme_mod( 'porto_child_hero_card_heading', __( "Follow Latest Style\nShoes to follow the trend going on", 'porto-child' ) );
-$hero_card_desc     = get_theme_mod( 'porto_child_hero_card_description', __( 'Step into a world of style with our revolutionary fashion app — your ultimate destination for trendsetting looks and curated collections.', 'porto-child' ) );
-$hero_card_cta_text = get_theme_mod( 'porto_child_hero_card_button_text', __( 'Next', 'porto-child' ) );
-$hero_card_cta_url  = get_theme_mod( 'porto_child_hero_card_button_url', '#content' );
+$hero_image_id = get_theme_mod( 'porto_child_hero_image' );
 
 $hero_image_src = $hero_image_id ? wp_get_attachment_image_url( $hero_image_id, 'full' ) : '';
-$hero_image_alt = '';
-
-if ( $hero_image_id ) {
-        $hero_image_alt = get_post_meta( $hero_image_id, '_wp_attachment_image_alt', true );
-}
-
-if ( ! $hero_image_alt ) {
-        $hero_image_alt = $hero_title ? wp_strip_all_tags( $hero_title ) : get_bloginfo( 'name', 'display' );
-}
 
 if ( $hero_enabled ) :
+        $hero_classes = array( 'home-hero' );
+
+        if ( $hero_image_src ) {
+                $hero_classes[] = 'home-hero--has-image';
+        } else {
+                $hero_classes[] = 'home-hero--no-image';
+        }
+
+        $hero_background_style = $hero_image_src ? sprintf( ' style="background-image: url(%s);"', esc_url( $hero_image_src ) ) : '';
         ?>
-<section class="home-hero" aria-label="<?php esc_attr_e( 'Featured promotion', 'porto-child' ); ?>">
-        <span class="home-hero__bubble" aria-hidden="true"></span>
-        <div class="container">
-                <div class="home-hero__inner">
-                        <div class="home-hero__copy">
+<section class="<?php echo esc_attr( implode( ' ', $hero_classes ) ); ?>"<?php echo $hero_background_style; ?> aria-label="<?php esc_attr_e( 'Featured promotion', 'porto-child' ); ?>">
+        <div class="home-hero__overlay">
+                <div class="container">
+                        <div class="home-hero__content">
                                 <?php if ( $hero_intro ) : ?>
                                         <span class="home-hero__eyebrow"><?php echo esc_html( $hero_intro ); ?></span>
                                 <?php endif; ?>
@@ -60,35 +55,6 @@ if ( $hero_enabled ) :
                                                 </a>
                                         </div>
                                 <?php endif; ?>
-                        </div>
-
-                        <div class="home-hero__device" role="group" aria-label="<?php esc_attr_e( 'Hero style preview', 'porto-child' ); ?>">
-                                <span class="home-hero__device-frame" aria-hidden="true"></span>
-                                <div class="home-hero__device-top">
-                                        <?php if ( $hero_image_src ) : ?>
-                                                <img class="home-hero__device-image" src="<?php echo esc_url( $hero_image_src ); ?>" alt="<?php echo esc_attr( $hero_image_alt ); ?>" loading="lazy" />
-                                        <?php else : ?>
-                                                <div class="home-hero__device-placeholder" aria-hidden="true"></div>
-                                        <?php endif; ?>
-                                </div>
-                                <div class="home-hero__card" aria-live="polite">
-                                        <?php if ( $hero_card_heading ) : ?>
-                                                <h2 class="home-hero__card-title"><?php echo nl2br( esc_html( $hero_card_heading ) ); ?></h2>
-                                        <?php endif; ?>
-
-                                        <?php if ( $hero_card_desc ) : ?>
-                                                <p class="home-hero__card-desc"><?php echo wp_kses_post( $hero_card_desc ); ?></p>
-                                        <?php endif; ?>
-
-                                        <?php if ( $hero_card_cta_text && $hero_card_cta_url ) : ?>
-                                                <a class="home-hero__card-nav" href="<?php echo esc_url( $hero_card_cta_url ); ?>">
-                                                        <span><?php echo esc_html( $hero_card_cta_text ); ?></span>
-                                                        <svg class="home-hero__card-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                                                                <path d="M5 10h10m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
-                                                        </svg>
-                                                </a>
-                                        <?php endif; ?>
-                                </div>
                         </div>
                 </div>
         </div>
