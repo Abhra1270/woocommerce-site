@@ -185,6 +185,320 @@ function porto_child_save_pay_for_order_fields( $order_id ) {
     $order->save();
 }
 
+/**
+ * Add hero banner controls to the Customizer.
+ */
+add_action( 'customize_register', 'porto_child_customize_register_home_hero' );
+function porto_child_customize_register_home_hero( $wp_customize ) {
+    $wp_customize->add_section(
+        'porto_child_home_hero',
+        array(
+            'title'       => __( 'Home Hero Banner', 'porto-child' ),
+            'priority'    => 35,
+            'description' => __( 'Controls the slider-style hero banner that appears at the top of the front page.', 'porto-child' ),
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_enable',
+        array(
+            'default'           => true,
+            'sanitize_callback' => 'porto_child_sanitize_checkbox',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_enable',
+        array(
+            'label'   => __( 'Display hero banner', 'porto-child' ),
+            'section' => 'porto_child_home_hero',
+            'type'    => 'checkbox',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_intro',
+        array(
+            'default'           => __( 'New Arrival', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_text',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_intro',
+        array(
+            'label'       => __( 'Eyebrow text', 'porto-child' ),
+            'description' => __( 'Small label that appears above the main hero headline.', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'text',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_title',
+        array(
+            'default'           => __( 'Find Your New Favourite Sneakers', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_textarea',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_title',
+        array(
+            'label'       => __( 'Hero headline', 'porto-child' ),
+            'description' => __( 'Main headline that is displayed next to the hero device mockup.', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'textarea',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_description',
+        array(
+            'default'           => __( 'Step into a world of style with our revolutionary fashion destination — your ultimate stop for trendsetting looks and curated collections.', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_textarea',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_description',
+        array(
+            'label'       => __( 'Hero description', 'porto-child' ),
+            'description' => __( 'Supporting copy that highlights what shoppers can expect.', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'textarea',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_button_text',
+        array(
+            'default'           => __( 'Shop Collection', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_text',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_button_text',
+        array(
+            'label'       => __( 'Primary button text', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'text',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_button_url',
+        array(
+            'default'           => '#content',
+            'sanitize_callback' => 'porto_child_sanitize_url',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_button_url',
+        array(
+            'label'       => __( 'Primary button link', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'url',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_image',
+        array(
+            'sanitize_callback' => 'absint',
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Media_Control(
+            $wp_customize,
+            'porto_child_hero_image',
+            array(
+                'label'       => __( 'Hero banner image', 'porto-child' ),
+                'description' => __( 'Upload the lifestyle or product image that appears inside the slider mockup.', 'porto-child' ),
+                'section'     => 'porto_child_home_hero',
+                'mime_type'   => 'image',
+            )
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_card_heading',
+        array(
+            'default'           => __( "Follow Latest Style\nShoes to follow the trend going on", 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_textarea',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_card_heading',
+        array(
+            'label'       => __( 'Slider card headline', 'porto-child' ),
+            'description' => __( 'Displayed inside the yellow card within the mockup. Use line breaks to control layout.', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'textarea',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_card_description',
+        array(
+            'default'           => __( 'Step into a world of style with our revolutionary fashion app — your ultimate destination for trendsetting looks and curated collections.', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_textarea',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_card_description',
+        array(
+            'label'       => __( 'Slider card description', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'textarea',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_card_button_text',
+        array(
+            'default'           => __( 'Next', 'porto-child' ),
+            'sanitize_callback' => 'porto_child_sanitize_text',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_card_button_text',
+        array(
+            'label'       => __( 'Slider card button text', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'text',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'porto_child_hero_card_button_url',
+        array(
+            'default'           => '#content',
+            'sanitize_callback' => 'porto_child_sanitize_url',
+            'transport'         => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control(
+        'porto_child_hero_card_button_url',
+        array(
+            'label'       => __( 'Slider card button link', 'porto-child' ),
+            'section'     => 'porto_child_home_hero',
+            'type'        => 'url',
+        )
+    );
+
+    $color_controls = array(
+        'porto_child_hero_background_top'    => array(
+            'label'   => __( 'Background gradient (top)', 'porto-child' ),
+            'default' => '#f6f0ff',
+        ),
+        'porto_child_hero_background_bottom' => array(
+            'label'   => __( 'Background gradient (bottom)', 'porto-child' ),
+            'default' => '#ffffff',
+        ),
+        'porto_child_hero_card_background'   => array(
+            'label'   => __( 'Card background', 'porto-child' ),
+            'default' => '#f9da8d',
+        ),
+        'porto_child_hero_accent_color'      => array(
+            'label'   => __( 'Accent color', 'porto-child' ),
+            'default' => '#f3d6ff',
+        ),
+    );
+
+    foreach ( $color_controls as $setting_id => $data ) {
+        $wp_customize->add_setting(
+            $setting_id,
+            array(
+                'default'           => $data['default'],
+                'sanitize_callback' => 'porto_child_sanitize_color',
+                'transport'         => 'refresh',
+            )
+        );
+
+        if ( class_exists( 'WP_Customize_Color_Control' ) ) {
+            $wp_customize->add_control(
+                new WP_Customize_Color_Control(
+                    $wp_customize,
+                    $setting_id,
+                    array(
+                        'label'   => $data['label'],
+                        'section' => 'porto_child_home_hero',
+                    )
+                )
+            );
+        }
+    }
+}
+
+add_filter( 'body_class', 'porto_child_home_hero_body_class' );
+function porto_child_home_hero_body_class( $classes ) {
+    if ( is_front_page() && get_theme_mod( 'porto_child_hero_enable', true ) ) {
+        $classes[] = 'home-hero-overlap';
+    }
+
+    return $classes;
+}
+
+add_action( 'wp_enqueue_scripts', 'porto_child_enqueue_home_hero_styles', 1105 );
+function porto_child_enqueue_home_hero_styles() {
+    if ( ! is_front_page() || ! get_theme_mod( 'porto_child_hero_enable', true ) ) {
+        return;
+    }
+
+    $bg_top    = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_top', '#f6f0ff' ) ) ?: '#f6f0ff';
+    $bg_bottom = sanitize_hex_color( get_theme_mod( 'porto_child_hero_background_bottom', '#ffffff' ) ) ?: '#ffffff';
+    $card_bg   = sanitize_hex_color( get_theme_mod( 'porto_child_hero_card_background', '#f9da8d' ) ) ?: '#f9da8d';
+    $accent    = sanitize_hex_color( get_theme_mod( 'porto_child_hero_accent_color', '#f3d6ff' ) ) ?: '#f3d6ff';
+
+    $custom_css = sprintf(
+        '.home-hero{--hero-bg-top:%1$s;--hero-bg-bottom:%2$s;--hero-card-bg:%3$s;--hero-accent:%4$s;background-image:linear-gradient(180deg,%1$s 0%%,%2$s 58%%);} .home-hero__bubble{background:var(--hero-accent);} .home-hero__device-top{background:var(--hero-accent);} .home-hero__device::after{background:var(--hero-accent);} .home-hero__device-placeholder{background:var(--hero-accent);} .home-hero__card{background:var(--hero-card-bg);}',
+        $bg_top,
+        $bg_bottom,
+        $card_bg,
+        $accent
+    );
+
+    wp_add_inline_style( 'styles-child', $custom_css );
+}
+
+function porto_child_sanitize_checkbox( $checked ) {
+    return isset( $checked ) && ( true === $checked || '1' === $checked || 1 === $checked );
+}
+
+function porto_child_sanitize_text( $value ) {
+    return sanitize_text_field( $value );
+}
+
+function porto_child_sanitize_textarea( $value ) {
+    return wp_kses_post( $value );
+}
+
+function porto_child_sanitize_url( $value ) {
+    return esc_url_raw( $value );
+}
+
+function porto_child_sanitize_color( $color ) {
+    $color = sanitize_hex_color( $color );
+
+    return $color ? $color : '';
+}
+
 // 4) On order → processing, queue a Delhivery push via Action Scheduler
 add_action( 'woocommerce_order_status_processing', 'porto_child_queue_delhivery_push', 10, 1 );
 function porto_child_queue_delhivery_push( $order_id ) {
